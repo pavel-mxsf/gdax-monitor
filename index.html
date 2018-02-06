@@ -1,0 +1,97 @@
+<html>
+    <head>
+        <style type="text/css">
+            .wrapper {
+                display: flex;
+                flex-direction: row;
+            }
+            .token {
+                flex: 1;
+                text-align: center;
+            }
+            .token h1 {
+                text-transform: uppercase;
+                color: navy;
+                font-size: 12em;
+            }
+            .token .pair span:first-child {
+                font-size: 4em;
+                margin-right: 1em;
+                color: grey;
+            }
+            .token .pair span:last-child {
+                font-size: 5em;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="token">
+                <h1>ETH</h1>
+                <div class="pair">
+                    <span>USD</span>
+                    <span id="ETH-USD"></span>
+                </div>
+                <div class="pair">
+                    <span>EUR</span>
+                    <span id="ETH-EUR"></span>
+                </div>
+            </div>
+            <div class="token">
+                <h1>BTC</h1>
+                <div class="pair">
+                    <span>USD</span>
+                    <span id="BTC-USD"></span>
+                </div>
+                <div class="pair">
+                    <span>EUR</span>
+                    <span id="BTC-EUR"></span>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            const websocket = new WebSocket('wss://ws-feed.gdax.com');
+
+            websocket.onopen = () => {
+                websocket.send(JSON.stringify({
+                    "type": "subscribe",
+                    "channels": [
+                        {
+                            "name": "ticker",
+                            "product_ids": [
+                                "ETH-USD",
+                                "ETH-EUR",
+                                "BTC-USD",
+                                "BTC-EUR",
+                            ]
+                        }
+                    ]
+                }));
+            };
+
+            let cachedTargets = {};
+
+            websocket.onmessage = message => {
+                let parsed = JSON.parse(message.data);
+                if (! parsed.product_id) {
+                    return;
+                }
+                if (! cachedTargets[parsed.product_id]) {
+                    let target = document.getElementById(parsed.product_id);
+                    if (target) {
+                        cachedTargets[parsed.product_id] = target;
+                    }
+                }
+                if (cachedTargets[parsed.product_id]) {
+                    cachedTargets[parsed.product_id].innerHTML = parseFloat(parsed.price).toFixed(4);
+                }
+            };
+            websocket.onerror = err => {
+              console.log('error', err);
+            };
+            websocket.onclose = () => {
+              console.log('closed');
+            };
+        </script>
+    </body>
+</html>
