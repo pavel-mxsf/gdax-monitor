@@ -1,26 +1,35 @@
 <html>
     <head>
         <style type="text/css">
+            html, body {
+                margin: 0;
+                padding: 0;
+            }
             .wrapper {
                 display: flex;
                 flex-direction: row;
+                height: 100%;
             }
             .token {
                 flex: 1;
                 text-align: center;
             }
+            .token:first-child {
+                border-right: 1px solid grey;
+            }
             .token h1 {
                 text-transform: uppercase;
                 color: navy;
-                font-size: 12em;
+                font-size: 8em;
+                line-height: 0.3em;
             }
             .token .pair span:first-child {
-                font-size: 4em;
+                font-size: 2em;
                 margin-right: 1em;
                 color: grey;
             }
             .token .pair span:last-child {
-                font-size: 5em;
+                font-size: 4em;
             }
         </style>
     </head>
@@ -83,7 +92,7 @@
                     }
                 }
                 if (cachedTargets[parsed.product_id]) {
-                    cachedTargets[parsed.product_id].innerHTML = parseFloat(parsed.price).toFixed(4);
+                    cachedTargets[parsed.product_id].innerHTML = parseFloat(parsed.price).toFixed(2);
                 }
             };
             websocket.onerror = err => {
