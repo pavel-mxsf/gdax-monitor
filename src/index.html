@@ -1,5 +1,6 @@
 <html>
     <head>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
         <style type="text/css">
             html, body {
                 margin: 0;
@@ -21,7 +22,7 @@
                 text-transform: uppercase;
                 color: navy;
                 font-size: 8em;
-                line-height: 0.3em;
+                line-height: 0;
             }
             .token .pair span:first-child {
                 font-size: 2em;
@@ -45,6 +46,9 @@
                     <span>EUR</span>
                     <span id="ETH-EUR"></span>
                 </div>
+                <div class="chart">
+                    <canvas id="eth-chart" width="400" height="200"></canvas>
+                </div>
             </div>
             <div class="token">
                 <h1>BTC</h1>
@@ -56,11 +60,13 @@
                     <span>EUR</span>
                     <span id="BTC-EUR"></span>
                 </div>
+                <div class="chart">
+                    <canvas id="btc-chart" width="400" height="200"></canvas>
+                </div>
             </div>
         </div>
         <script type="text/javascript">
             const websocket = new WebSocket('wss://ws-feed.gdax.com');
-
             websocket.onopen = () => {
                 websocket.send(JSON.stringify({
                     "type": "subscribe",
@@ -101,6 +107,56 @@
             websocket.onclose = () => {
               console.log('closed');
             };
+
+
+https://api.gdax.com/products/ETH-USD/candles?granularity=300
+time bucket start time
+low lowest price during the bucket interval
+high highest price during the bucket interval
+open opening price (first trade) in the bucket interval
+close closing price (last trade) in the bucket interval
+volume volume of trading activity during the bucket interval
+
+            const ethChartContext = document.getElementById('eth-chart').getContext('2d');
+            const btcChartContext = document.getElementById('btc-chart').getContext('2d');
+            var myLineChart = new Chart(ethChartContext, {
+                type: 'line',
+                data: {
+                labels: ["January", "February", "March"],
+                datasets: [{
+                    label: "USD",
+                    data: [
+                        930, 940, 950
+                    ],
+                    backgroundColor: '#ff0000',
+                    borderColor: '#f00000',
+                    fill: false,
+                }, {
+                    label: "EUR",
+                    fill: false,
+                    backgroundColor: '#0000ff',
+                    borderColor: '#0000f0',
+                    data: [
+                        750, 760, 770
+                    ],
+                }]
+            },
+            options: {
+                responsive: true,
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                    }],
+                    yAxes: [{
+                        display: true,
+                    }]
+                }
+            }
+            });
         </script>
     </body>
 </html>
