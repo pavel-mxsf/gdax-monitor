@@ -4,7 +4,7 @@
   "description": "Simple GDAX ETH and BTC rate tracker",
   "main": "docs/index.html",
   "scripts": {
-    "start": "http-server docs",
+    "start": "http-server docs"
   },
   "repository": {
     "type": "git",
