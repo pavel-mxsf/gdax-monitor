@@ -2,9 +2,9 @@
   "name": "gdax-monitor",
   "version": "1.0.0",
   "description": "Simple GDAX ETH and BTC rate tracker",
-  "main": "src/index.html",
+  "main": "docs/index.html",
   "scripts": {
-    "start": "http-server src"
+    "start": "http-server docs",
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/JirkaChadima/gdax-monitor#readme",
   "devDependencies": {
-    "gh-pages": "^1.1.0",
     "http-server": "^0.11.1"
   }
 }
