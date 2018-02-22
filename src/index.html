@@ -20,6 +20,7 @@
         <script src="/components/app-menu.js"></script>
         <script src="/components/loader.js"></script>
         <link rel="stylesheet" href="/components/loader.css">
+        <script src="/components/page-home.js"></script>
         <script src="/components/page-gdax-price.js"></script>
         <script src="/components/page-daily-high-low.js"></script>
     </head>
@@ -30,20 +31,37 @@
         </div>
 
         <script>
+            const routes = [
+                { path: '/', component: PageHome, pageTimeout: 10000 },
+                { path: '/gdax-price', component: PageGdaxPrice, pageTimeout: 30000 },
+                { path: '/daily-high-low', component: PageDailyHighLow, pageTimeout: 30000 }
+            ];
+
             const router = new VueRouter({
-                routes: [
-                    { path: '/', component: { template: 'home' } },
-                    { path: '/gdax-price', component: PageGdaxPrice },
-                    { path: '/daily-high-low', component: PageDailyHighLow }
-                ]
+                routes
             });
 
             var app = new Vue({
                 el: '#app',
                 router,
-                data: {},
-                created: function () {},
-                methods: {}
+                data: {
+                    lastRouteIndex: 0
+                },
+                created: function () {
+                    this.autoLoadNextPage();
+                },
+                methods: {
+                    autoLoadNextPage: function () {
+                        var self = this;
+                        self.lastRouteIndex++;
+                        if (self.lastRouteIndex >= routes.length) {
+                            self.lastRouteIndex = 0;
+                        }
+                        router.push(routes[self.lastRouteIndex].path);
+
+                        setTimeout(self.autoLoadNextPage, routes[self.lastRouteIndex].pageTimeout);
+                    }
+                }
             });
         </script>
     </body>
