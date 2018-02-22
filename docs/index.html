@@ -1,30 +1,68 @@
 <!doctype html>
 <html lang="en">
-   <head>
-       <meta charset="utf-8">
-       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-       <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-       <title>Fragaria.cz Crypto RPi</title>
-   </head>
-   <body>
-       <nav class="navbar navbar-expand-lg navbar-light bg-light">
-           <a class="navbar-brand" href="#"><img src="https://www.google.com/a/fragaria.cz/images/logo.gif?alpha=1&service=google_white"/></a>
-           <div class="navbar" id="navbarNav">
-               <ul class="navbar-nav">
-                   <li class="nav-item">
-                       <a class="nav-link" href="https://jirkachadima.github.io/gdax-monitor/ticker.html" target="iframe_a">Price</a>
-                   </li>
-                   <li class="nav-item">
-                       <a class="nav-link" href="https://coinmate-test.f-app.it/#/daily-high-low" target="iframe_a">Graph</a>
-                   </li>
-               </ul>        
-           </div>
-       </nav>
-       <iframe
-           src="https://jirkachadima.github.io/gdax-monitor/ticker.html"
-           name="iframe_a"
-           style="position:fixed; top:85px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border: none; margin:0; padding:0; overflow:hidden; z-index:999999;"></iframe>
-   </body>
-</html
+        <title>Crypto monitor</title>
+
+        <script src="//cdn.jsdelivr.net/npm/vue@2.5.13"></script>
+        <script src="//cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.js"></script>
+
+        <script src="//www.amcharts.com/lib/3/amcharts.js"></script>
+        <script src="//www.amcharts.com/lib/3/serial.js"></script>
+        <script src="//www.amcharts.com/lib/3/pie.js"></script>
+
+        <script src="//cdn.jsdelivr.net/npm/moment@2.20.1/moment.min.js"></script>
+
+        <script src="/components/app-menu.js"></script>
+        <script src="/components/loader.js"></script>
+        <link rel="stylesheet" href="/components/loader.css">
+        <script src="/components/page-home.js"></script>
+        <script src="/components/page-gdax-price.js"></script>
+        <script src="/components/page-daily-high-low.js"></script>
+    </head>
+    <body>
+        <div id="app" class="container">
+            <app-menu></app-menu>
+            <router-view></router-view>
+        </div>
+
+        <script>
+            const routes = [
+                { path: '/', component: PageHome, pageTimeout: 10000 },
+                { path: '/gdax-price', component: PageGdaxPrice, pageTimeout: 30000 },
+                { path: '/daily-high-low', component: PageDailyHighLow, pageTimeout: 30000 }
+            ];
+
+            const router = new VueRouter({
+                routes
+            });
+
+            var app = new Vue({
+                el: '#app',
+                router,
+                data: {
+                    lastRouteIndex: 0
+                },
+                created: function () {
+                    this.autoLoadNextPage();
+                },
+                methods: {
+                    autoLoadNextPage: function () {
+                        var self = this;
+                        self.lastRouteIndex++;
+                        if (self.lastRouteIndex >= routes.length) {
+                            self.lastRouteIndex = 0;
+                        }
+                        router.push(routes[self.lastRouteIndex].path);
+
+                        setTimeout(self.autoLoadNextPage, routes[self.lastRouteIndex].pageTimeout);
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
