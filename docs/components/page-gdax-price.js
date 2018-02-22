@@ -4,13 +4,13 @@ const PageGdaxPrice = {
             <loader v-if="!loaded"></loader>
             <div class="row align-items-center" style="height:430px;" v-if="loaded">
                 <div class="col-sm text-center">
-                    <img src="assets/ethereum-logo.png" style="height:100px;" />
+                    <img src="//jirkachadima.github.io/gdax-monitor/assets/ethereum-logo.png" style="height:100px;" />
                     <h1 class="display-5">ETH</h1>
                     <h3 class="display-5"><small class="text-secondary">USD</small> <span id="ETH-USD"><loader style="display:inline"></loader></span></h3>
                     <h3 class="display-5"><small class="text-secondary">EUR</small> <span id="ETH-EUR"><loader style="display:inline"></loader></span></h3>
                 </div>
                 <div class="col-sm text-center">
-                    <img src="assets/bitcoin-logo.png" style="height:100px;" />
+                    <img src="//jirkachadima.github.io/gdax-monitor/assets/bitcoin-logo.png" style="height:100px;" />
                     <h1 class="display-5">BTC</h1>
                     <h3 class="display-5"><small class="text-secondary">USD</small> <span id="BTC-USD"><loader style="display:inline"></loader></span></h3>
                     <h3 class="display-5"><small class="text-secondary">EUR</small> <span id="BTC-EUR"><loader style="display:inline"></loader></span></h3>
