@@ -1,0 +1,29 @@
+{
+  "name": "gdax-monitor",
+  "version": "1.0.0",
+  "description": "Simple GDAX ETH and BTC rate tracker",
+  "main": "src/index.html",
+  "scripts": {
+    "start": "http-server src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/JirkaChadima/gdax-monitor.git"
+  },
+  "keywords": [
+    "ethereum",
+    "bitcoin",
+    "gdax",
+    "fragaria"
+  ],
+  "author": "Jirka Chadima <chadima.jiri@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JirkaChadima/gdax-monitor/issues"
+  },
+  "homepage": "https://github.com/JirkaChadima/gdax-monitor#readme",
+  "devDependencies": {
+    "gh-pages": "^1.1.0",
+    "http-server": "^0.11.1"
+  }
+}
