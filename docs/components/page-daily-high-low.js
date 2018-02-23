@@ -17,11 +17,10 @@ const PageDailyHighLow = {
     },
     methods: {
         showDailyHighLow: function () {
-            var self = this;
-            var xhr = new XMLHttpRequest();
+            const xhr = new XMLHttpRequest();
             xhr.open('GET', 'https://coinmate-test.f-app.it/api/data/daily-high-low');
-            xhr.onload = function () {
-                self.dailyHighLow = JSON.parse(xhr.responseText);
+            xhr.onload = () => {
+                this.dailyHighLow = JSON.parse(xhr.responseText);
 
                 AmCharts.makeChart("chartdiv",
                     {
@@ -47,7 +46,7 @@ const PageDailyHighLow = {
                                 "valueField": "average",
                                 "balloonText": "average:[[value]]"
                             }],
-                        "dataProvider": self.dailyHighLow
+                        "dataProvider": this.dailyHighLow
                     }
                 );
 
